@@ -16,6 +16,7 @@
 		FBEC7D0A1E610F9A00716675 /* CrosswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEC7D091E610F9A00716675 /* CrosswordViewController.swift */; };
 		FBEC7D0C1E610FE200716675 /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEC7D0B1E610FE200716675 /* CellView.swift */; };
 		FBEC7D0E1E610FF700716675 /* CrosswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEC7D0D1E610FF700716675 /* CrosswordModel.swift */; };
+		FBEC7D111E61191D00716675 /* Puzzle.csv in Resources */ = {isa = PBXBuildFile; fileRef = FBEC7D101E61191D00716675 /* Puzzle.csv */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		FBEC7D091E610F9A00716675 /* CrosswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrosswordViewController.swift; sourceTree = "<group>"; };
 		FBEC7D0B1E610FE200716675 /* CellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
 		FBEC7D0D1E610FF700716675 /* CrosswordModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrosswordModel.swift; sourceTree = "<group>"; };
+		FBEC7D101E61191D00716675 /* Puzzle.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Puzzle.csv; path = ../../Puzzle.csv; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 				FBEC7D0B1E610FE200716675 /* CellView.swift */,
 				FBEC7D091E610F9A00716675 /* CrosswordViewController.swift */,
 				FBEC7CDE1E610E3000716675 /* Main.storyboard */,
+				FBEC7D0F1E61190B00716675 /* Puzzles */,
 				FBEC7D081E610F3100716675 /* Supporting Files */,
 			);
 			path = Crossworder;
@@ -137,6 +140,14 @@
 				FBEC7CE11E610E3000716675 /* Assets.xcassets */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FBEC7D0F1E61190B00716675 /* Puzzles */ = {
+			isa = PBXGroup;
+			children = (
+				FBEC7D101E61191D00716675 /* Puzzle.csv */,
+			);
+			name = Puzzles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -248,6 +259,7 @@
 			files = (
 				FBEC7CE51E610E3000716675 /* LaunchScreen.storyboard in Resources */,
 				FBEC7CE21E610E3000716675 /* Assets.xcassets in Resources */,
+				FBEC7D111E61191D00716675 /* Puzzle.csv in Resources */,
 				FBEC7CE01E610E3000716675 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

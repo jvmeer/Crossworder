@@ -92,12 +92,28 @@ class CrosswordModel {
         func addCell(cell: Cell) {
             dict[cell.cellId] = cell
         }
-        func cellAt(location: Location, currentCell: Cell) -> Cell {
-            if currentCell.cellId.location == location {
-                return currentCell.cellId.orientation == .Across ? dict[CellId(location: location, orientation: .Down)] ?? currentCell : dict[CellId(location: location, orientation: .Across)] ?? currentCell
+        func cellAt(location: Location, currentCell: Cell) -> Cell? {
+            if dict[CellId(location: location, orientation: .Across)] == nil && dict[CellId(location: location, orientation: .Down)] == nil {
+                return nil
             } else {
-                return currentCell.cellId.orientation == .Across ? dict[CellId(location: location, orientation: .Across)] ?? dict[CellId(location: location, orientation: .Down)]! : dict[CellId(location: location, orientation: .Down)] ?? dict[CellId(location: location, orientation: .Across)]!
+                if currentCell.cellId.location == location {
+                    let test = dict[CellId(location: location, orientation: .Down)]
+                    let x = test
+                    return currentCell.cellId.orientation == .Across ? test ?? currentCell : dict[CellId(location: location, orientation: .Across)] ?? currentCell
+                } else {
+                    return currentCell.cellId.orientation == .Across ? dict[CellId(location: location, orientation: .Across)] ?? dict[CellId(location: location, orientation: .Down)]! : dict[CellId(location: location, orientation: .Down)] ?? dict[CellId(location: location, orientation: .Across)]!
+                }
             }
+        }
+        func clueNumberAt(location: Location) -> Int? {
+            var result: Int? = nil
+            if let acrossCell = dict[CellId(location: location, orientation: .Across)] {
+                if let acrossClueNumber = acrossCell.clueNumber { result = acrossClueNumber }
+            }
+            if let downCell = dict[CellId(location: location, orientation: .Down)] {
+                if let downClueNumber = downCell.clueNumber { result = downClueNumber }
+            }
+            return result
         }
         func isFull() -> Bool {
             var result = true
@@ -167,10 +183,10 @@ class CrosswordModel {
                     }
                 }
             } catch {
-                assertionFailure("File not readable")
+                fatalError("File not readable")
             }
         } else {
-            assertionFailure("File not found")
+            fatalError("File not found")
         }
         return simpleGrid
     }
@@ -192,15 +208,15 @@ class CrosswordModel {
                         case "D":
                             clueDict[CellId(location: location, orientation: Orientation.Down)] = clue
                         default:
-                            assertionFailure("Invalid clue orientation found")
+                            fatalError("Invalid clue orientation found")
                         }
                     }
                 }
             } catch {
-                assertionFailure("File not readable")
+                fatalError("File not readable")
             }
         } else {
-            assertionFailure("File not found")
+            fatalError("File not found")
         }
         return clueDict
     }
@@ -224,22 +240,18 @@ class CrosswordModel {
                 let letter = simpleGrid[Location(row: row, column: column)]!
                 if letter != "" {
                     let location = Location(row: row, column: column)
-                    let orientation: Orientation?
-                    let atBeginningOfAcrossWord = letterAt(location: location.leftNeighbor, simpleGrid: simpleGrid) == "" && letterAt(location: location.rightNeighbor, simpleGrid: simpleGrid) != ""
-                    let atBeginningOfDownWord = letterAt(location: location.upNeighbor, simpleGrid: simpleGrid) == "" && letterAt(location: location.downNeighbor, simpleGrid: simpleGrid) != ""
+                    let atBeginningOfAcrossWord = letterAt(location: location.leftNeighbor, simpleGrid: simpleGrid, rows: rows, columns: columns) == "" && letterAt(location: location.rightNeighbor, simpleGrid: simpleGrid, rows: rows, columns: columns) != ""
+                    let atBeginningOfDownWord = letterAt(location: location.upNeighbor, simpleGrid: simpleGrid, rows: rows, columns: columns) == "" && letterAt(location: location.downNeighbor, simpleGrid: simpleGrid, rows: rows, columns: columns) != ""
                     
-                    if atBeginningOfAcrossWord {
-                        orientation = .Across
-                    } else if atBeginningOfDownWord {
-                        orientation = .Down
-                    } else {
-                        orientation = nil
-                    }
-                    
-                    if orientation != nil {
+                    if atBeginningOfAcrossWord || atBeginningOfDownWord {
                         clueCounter += 1
-                        let clueNumber = clueCounter
-                        addLettersInWord(startCellId: CellId(location: location, orientation: orientation!), simpleGrid: simpleGrid, clueDict: clueDict, clueNumber: clueNumber, head: &head, tail: &tail)
+                    }
+
+                    if atBeginningOfAcrossWord {
+                        addLettersInWord(startCellId: CellId(location: location, orientation: .Across), simpleGrid: simpleGrid, clueDict: clueDict, clueNumber: clueCounter, head: &head, tail: &tail)
+                    }
+                    if atBeginningOfDownWord {
+                        addLettersInWord(startCellId: CellId(location: location, orientation: .Down), simpleGrid: simpleGrid, clueDict: clueDict, clueNumber: clueCounter, head: &head, tail: &tail)
                     }
                 }
             }
@@ -249,13 +261,11 @@ class CrosswordModel {
         tail.across!.nextCell = head.down
         tail.down!.nextCell = head.across
         currentCell = head.across
-        print(currentCell.cellId.location.row)
-        print(currentCell.cellId.location.column)
         
         linkWordStarts()
     }
     
-    private func letterAt(location: Location, simpleGrid: [Location: String]) -> String {
+    private func letterAt(location: Location, simpleGrid: [Location: String], rows: Int, columns: Int) -> String {
         if location.row < 0 || location.column < 0 || location.row >= rows || location.column >= columns {
             return ""
         } else {
@@ -271,25 +281,12 @@ class CrosswordModel {
         }
     }
     
-    private func wordStartLocation(location: Location, simpleGrid: [Location: String], orientation: Orientation) -> Location {
-        var locationCursor = location
-        
-        while true {
-            if orientation == .Across ? letterAt(location: locationCursor.leftNeighbor, simpleGrid: simpleGrid) == "" : letterAt(location: locationCursor.upNeighbor, simpleGrid: simpleGrid) == "" {
-                break
-            } else {
-                locationCursor = orientation == .Across ? locationCursor.leftNeighbor : locationCursor.upNeighbor
-            }
-        }
-        return locationCursor
-    }
-    
     private func word(startCellId: CellId, simpleGrid: [Location: String]) -> [Location] {
         var word = [Location]()
         var locationCursor = startCellId.location
         while true {
             word.append(locationCursor)
-            if startCellId.orientation == .Across ? letterAt(location: locationCursor.rightNeighbor, simpleGrid: simpleGrid) == "" : letterAt(location: locationCursor.downNeighbor, simpleGrid: simpleGrid) == "" {
+            if startCellId.orientation == .Across ? letterAt(location: locationCursor.rightNeighbor, simpleGrid: simpleGrid, rows: rows, columns: columns) == "" : letterAt(location: locationCursor.downNeighbor, simpleGrid: simpleGrid, rows: rows, columns: columns) == "" {
                 break
             } else {
                 locationCursor = startCellId.orientation == .Across ? locationCursor.rightNeighbor : locationCursor.downNeighbor
@@ -318,7 +315,7 @@ class CrosswordModel {
             while !nextWordCellCursor.isStartOfWord {
                 nextWordCellCursor = nextWordCellCursor.nextCell
             }
-            while !previousWordCellCursor.isStartOfWord {
+            while !previousWordCellCursor.isStartOfWord || outerCellCursor.word.contains(previousWordCellCursor.cellId.location) {
                 previousWordCellCursor = previousWordCellCursor.previousCell
             }
             outerCellCursor.startOfNextWord = nextWordCellCursor
@@ -341,6 +338,7 @@ class CrosswordModel {
     func enterLetter(letter: String) {
         let oldLetter = currentCell.currentLetter
         currentCell.currentLetter = letter
+        cellDict.cellAt(location: currentCell.cellId.location, currentCell: currentCell)?.currentLetter = letter
         if oldLetter == "" || currentCell.isEndOfWord {
             if isFull {
                 goToNextCell()
@@ -361,10 +359,8 @@ class CrosswordModel {
     }
     
     func goToNextClue() {
-        if isFull {
-            currentCell = currentCell.startOfNextWord
-        } else {
-            currentCell = currentCell.startOfNextWord
+        currentCell = currentCell.startOfNextWord
+        if !isFull {
             while currentCell.currentLetter != "" {
                 goToNextCell()
             }
@@ -372,10 +368,8 @@ class CrosswordModel {
     }
     
     func goToPreviousClue() {
-        if isFull {
-            currentCell = currentCell.startOfPreviousWord
-        } else {
-            currentCell = currentCell.startOfPreviousWord
+        currentCell = currentCell.startOfPreviousWord
+        if !isFull {
             while currentCell.currentLetter != "" {
                 if currentCell.isEndOfWord {
                     currentCell = currentCell.startOfPreviousWord
@@ -388,6 +382,18 @@ class CrosswordModel {
     
     func goToLocation(location: Location) {
         currentCell = cellDict.cellAt(location: location, currentCell: currentCell)
+    }
+    
+    func correctLetterAt(location: Location) -> String? {
+        return cellDict.cellAt(location: location, currentCell: currentCell)?.correctLetter
+    }
+    
+    func currentLetter() -> String {
+        return currentCell.currentLetter
+    }
+    
+    func clueNumberAt(location: Location) -> Int? {
+        return cellDict.clueNumberAt(location: location)
     }
     
 }
