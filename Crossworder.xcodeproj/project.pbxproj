@@ -8,12 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		FBEC7CDB1E610E3000716675 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEC7CDA1E610E3000716675 /* AppDelegate.swift */; };
-		FBEC7CDD1E610E3000716675 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEC7CDC1E610E3000716675 /* ViewController.swift */; };
 		FBEC7CE01E610E3000716675 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBEC7CDE1E610E3000716675 /* Main.storyboard */; };
 		FBEC7CE21E610E3000716675 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBEC7CE11E610E3000716675 /* Assets.xcassets */; };
 		FBEC7CE51E610E3000716675 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBEC7CE31E610E3000716675 /* LaunchScreen.storyboard */; };
 		FBEC7CF01E610E3000716675 /* CrossworderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEC7CEF1E610E3000716675 /* CrossworderTests.swift */; };
 		FBEC7CFB1E610E3000716675 /* CrossworderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEC7CFA1E610E3000716675 /* CrossworderUITests.swift */; };
+		FBEC7D0A1E610F9A00716675 /* CrosswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEC7D091E610F9A00716675 /* CrosswordViewController.swift */; };
+		FBEC7D0C1E610FE200716675 /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEC7D0B1E610FE200716675 /* CellView.swift */; };
+		FBEC7D0E1E610FF700716675 /* CrosswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBEC7D0D1E610FF700716675 /* CrosswordModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +38,6 @@
 /* Begin PBXFileReference section */
 		FBEC7CD71E610E3000716675 /* Crossworder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Crossworder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBEC7CDA1E610E3000716675 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FBEC7CDC1E610E3000716675 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		FBEC7CDF1E610E3000716675 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FBEC7CE11E610E3000716675 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FBEC7CE41E610E3000716675 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +48,9 @@
 		FBEC7CF61E610E3000716675 /* CrossworderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CrossworderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBEC7CFA1E610E3000716675 /* CrossworderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrossworderUITests.swift; sourceTree = "<group>"; };
 		FBEC7CFC1E610E3000716675 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FBEC7D091E610F9A00716675 /* CrosswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrosswordViewController.swift; sourceTree = "<group>"; };
+		FBEC7D0B1E610FE200716675 /* CellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
+		FBEC7D0D1E610FF700716675 /* CrosswordModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrosswordModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,12 +101,11 @@
 		FBEC7CD91E610E3000716675 /* Crossworder */ = {
 			isa = PBXGroup;
 			children = (
-				FBEC7CDA1E610E3000716675 /* AppDelegate.swift */,
-				FBEC7CDC1E610E3000716675 /* ViewController.swift */,
+				FBEC7D0D1E610FF700716675 /* CrosswordModel.swift */,
+				FBEC7D0B1E610FE200716675 /* CellView.swift */,
+				FBEC7D091E610F9A00716675 /* CrosswordViewController.swift */,
 				FBEC7CDE1E610E3000716675 /* Main.storyboard */,
-				FBEC7CE11E610E3000716675 /* Assets.xcassets */,
-				FBEC7CE31E610E3000716675 /* LaunchScreen.storyboard */,
-				FBEC7CE61E610E3000716675 /* Info.plist */,
+				FBEC7D081E610F3100716675 /* Supporting Files */,
 			);
 			path = Crossworder;
 			sourceTree = "<group>";
@@ -123,6 +126,17 @@
 				FBEC7CFC1E610E3000716675 /* Info.plist */,
 			);
 			path = CrossworderUITests;
+			sourceTree = "<group>";
+		};
+		FBEC7D081E610F3100716675 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FBEC7CDA1E610E3000716675 /* AppDelegate.swift */,
+				FBEC7CE61E610E3000716675 /* Info.plist */,
+				FBEC7CE31E610E3000716675 /* LaunchScreen.storyboard */,
+				FBEC7CE11E610E3000716675 /* Assets.xcassets */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,8 +273,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FBEC7CDD1E610E3000716675 /* ViewController.swift in Sources */,
 				FBEC7CDB1E610E3000716675 /* AppDelegate.swift in Sources */,
+				FBEC7D0A1E610F9A00716675 /* CrosswordViewController.swift in Sources */,
+				FBEC7D0E1E610FF700716675 /* CrosswordModel.swift in Sources */,
+				FBEC7D0C1E610FE200716675 /* CellView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
